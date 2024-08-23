@@ -7,13 +7,11 @@ export default (app: Probot) => {
     });
     await context.octokit.issues.createComment(issueComment);
   });
-  app.on("commit_comment", async (context) => { 
-    //I want to grab the commit 
+  app.on("commit_comment.created", async (context) => { 
     const commit = context.payload.comment.commit_id;
-    //I want to grab the repo
     const repo = context.payload.repository.name;
-    //I want to grab the comment
     const comment = context.payload.comment.body;
-    console.log(commit, repo, comment);
+    const link = context.payload.comment.html_url;
+    app.log.info(`Commit: ${commit} Repo: ${repo} Comment: ${comment} Link: ${link}`);
   })
 };
